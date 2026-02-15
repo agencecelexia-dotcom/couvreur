@@ -1,8 +1,23 @@
 import type { Metadata } from "next";
+import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dmsans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://toitsexcellence.fr"),
@@ -58,8 +73,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${playfair.variable} ${dmSans.variable}`}>
       <body>
+        <ScrollProgress />
         <JsonLd />
         <Navbar />
         <main>{children}</main>

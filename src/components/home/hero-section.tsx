@@ -1,98 +1,106 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import { SplitText } from "@/components/animations/SplitText";
 
 export function HeroSection() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image */}
+      {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage:
-            "url('/images/hero-toiture.png')",
-        }}
+        style={{ backgroundImage: "url('/images/hero-toiture.png')" }}
       />
-
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/65 to-black/80" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
 
-      {/* Grain texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-      />
-
       {/* Content */}
-      <div
-        className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-700 ${
-          mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        }`}
-      >
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Eyebrow */}
-        <p className="text-[#B8860B] text-xs tracking-[0.3em] uppercase font-medium mb-6">
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-accent-400 text-xs tracking-[0.35em] uppercase font-medium mb-6"
+        >
           Maître Artisan · Île-de-France · depuis 1987
-        </p>
+        </motion.p>
 
-        {/* H1 */}
+        {/* H1 avec SplitText */}
         <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.05] mb-6">
-          L&apos;Excellence
+          <SplitText delay={0.15}>{"L'Excellence"}</SplitText>
           <br />
-          <em className="not-italic text-[#B8860B]">de la Toiture</em>
+          <span className="text-accent-400">
+            <SplitText delay={0.4}>{"de la Toiture"}</SplitText>
+          </span>
         </h1>
 
         {/* Subtitle */}
-        <p className="max-w-2xl mx-auto text-lg sm:text-xl text-white/75 leading-relaxed mb-10">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.75, ease: "easeOut" }}
+          className="max-w-2xl mx-auto text-lg sm:text-xl text-white/75 leading-relaxed mb-10"
+        >
           Couvreurs artisans certifiés Qualibat RGE. Ardoise, zinc, tuiles,
           isolation et zinguerie — chaque toit traité avec l&apos;exigence
           d&apos;un chef-d&apos;œuvre.
-        </p>
+        </motion.p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+        >
           <Link
             href="/contact"
-            className="inline-flex items-center h-13 px-8 text-base font-medium bg-[#B8860B] text-white hover:bg-[#9a700a] transition-colors"
+            className="inline-flex items-center h-12 px-8 text-sm font-medium bg-accent-500 text-white hover:bg-accent-600 transition-colors"
           >
             Obtenir un devis gratuit
           </Link>
           <Link
             href="/realisations"
-            className="inline-flex items-center h-13 px-8 text-base font-medium border border-white/60 text-white hover:bg-white hover:text-[#2C3E50] transition-colors"
+            className="inline-flex items-center h-12 px-8 text-sm font-medium border border-white/60 text-white hover:bg-white hover:text-primary-900 transition-colors"
           >
             Voir nos réalisations
           </Link>
-        </div>
+        </motion.div>
 
-        {/* Stats */}
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+        {/* Stats inline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.1, ease: "easeOut" }}
+          className="flex flex-wrap items-center justify-center gap-8 sm:gap-14"
+        >
           {[
             { value: "35+", label: "ans d'expertise" },
             { value: "1 200+", label: "toitures réalisées" },
             { value: "100%", label: "satisfaction garantie" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <p className="font-serif text-3xl sm:text-4xl font-bold text-[#B8860B]">
+              <p className="font-serif text-3xl sm:text-4xl font-bold text-accent-400">
                 {stat.value}
               </p>
-              <p className="text-sm text-white/60 mt-1">{stat.label}</p>
+              <p className="text-xs text-white/55 mt-1 tracking-wide">{stat.label}</p>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 animate-bounce">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-white/40"
+      >
         <ChevronDown className="w-5 h-5" />
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -1,98 +1,85 @@
-"use client";
+import { Star } from "lucide-react";
+import { FadeUp } from "@/components/animations/FadeUp";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
-import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
-import { testimonials } from "@/data/testimonials";
+const testimonials = [
+  {
+    author: "M. & Mme de Villeneuve",
+    role: "Propriétaires, Paris 16ème",
+    text: "Toits d'Excellence a su comprendre les exigences de notre demeure classée. Le résultat est à la hauteur de nos espérances : une toiture magnifique, fidèle à l'esprit architectural de la maison.",
+    rating: 5,
+    project: "Toiture ardoise naturelle",
+  },
+  {
+    author: "Isabelle Marchand",
+    role: "Architecte DPLG, Versailles",
+    text: "J'ai confié ce chantier exigeant à Toits d'Excellence après avoir vu leur travail. Leur maîtrise du zinc à joint debout est remarquable. Je les recommande sans hésitation à tous mes clients.",
+    rating: 5,
+    project: "Couverture zinc à joint debout",
+  },
+  {
+    author: "Famille Rousseau",
+    role: "Propriétaires, Rambouillet",
+    text: "Notre maison de famille méritait le meilleur. L'équipe a traité notre bien avec respect et professionnalisme. La toiture est superbe et les délais ont été parfaitement respectés.",
+    rating: 5,
+    project: "Rénovation tuiles mécaniques",
+  },
+];
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5 mb-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`w-4 h-4 ${i < rating ? "text-accent-500 fill-accent-500" : "text-neutral-300"}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function TestimonialsCarousel() {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const prev = () =>
-    setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
-  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
-
-  const t = testimonials[current];
-
   return (
-    <section className="py-20 lg:py-28 bg-[#2C3E50]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <p className="text-[#B8860B] text-xs tracking-[0.25em] uppercase font-medium mb-3">
-            Témoignages clients
-          </p>
-          <h2 className="font-serif text-4xl lg:text-5xl font-bold text-white leading-tight">
-            Ils nous font confiance
-          </h2>
-        </div>
+    <section className="py-20 lg:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeUp className="text-center mb-14">
+          <SectionHeading
+            eyebrow="Témoignages"
+            title="Ce que disent nos clients"
+            subtitle="Leur confiance est notre meilleure récompense."
+            centered
+          />
+        </FadeUp>
 
-        {/* Testimonial */}
-        <div
-          key={current}
-          className="text-center"
-          aria-live="polite"
-        >
-          <Quote className="w-10 h-10 text-[#B8860B] mx-auto mb-8 opacity-60" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <FadeUp key={t.author} delay={i * 0.1}>
+              <div
+                className="flex flex-col p-7 bg-neutral-50 border border-neutral-200 h-full hover:-translate-y-1 transition-transform duration-300"
+                style={{ boxShadow: "var(--shadow-card)" }}
+              >
+                <StarRating rating={t.rating} />
 
-          {/* Stars */}
-          <div className="flex justify-center gap-1 mb-6">
-            {Array.from({ length: t.rating }).map((_, i) => (
-              <Star key={i} className="w-5 h-5 fill-[#B8860B] text-[#B8860B]" />
-            ))}
-          </div>
+                <blockquote className="text-sm text-neutral-700 leading-relaxed italic flex-1 mb-6">
+                  &ldquo;{t.text}&rdquo;
+                </blockquote>
 
-          {/* Text */}
-          <blockquote className="font-serif text-xl lg:text-2xl text-white/90 leading-relaxed italic mb-10 max-w-3xl mx-auto">
-            &ldquo;{t.text}&rdquo;
-          </blockquote>
-
-          {/* Author */}
-          <div>
-            <p className="font-semibold text-white">{t.author}</p>
-            <p className="text-sm text-white/50 mt-1">
-              {t.role} — {t.location}
-            </p>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-6 mt-12">
-          <button
-            onClick={prev}
-            className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:border-[#B8860B] hover:text-[#B8860B] transition-colors"
-            aria-label="Témoignage précédent"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* Dots */}
-          <div className="flex gap-2">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                aria-label={`Témoignage ${i + 1}`}
-                className={`h-1.5 transition-all duration-300 ${
-                  i === current ? "w-8 bg-[#B8860B]" : "w-1.5 bg-white/30"
-                }`}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={next}
-            className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:border-[#B8860B] hover:text-[#B8860B] transition-colors"
-            aria-label="Témoignage suivant"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+                <div className="flex items-center gap-3 mt-auto">
+                  <div className="w-10 h-10 rounded-full bg-primary-900 flex items-center justify-center shrink-0">
+                    <span className="text-white text-sm font-bold font-serif">
+                      {t.author[0]}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-primary-900">{t.author}</p>
+                    <p className="text-xs text-neutral-500">{t.role}</p>
+                    <p className="text-xs text-accent-500 font-medium mt-0.5">{t.project}</p>
+                  </div>
+                </div>
+              </div>
+            </FadeUp>
+          ))}
         </div>
       </div>
     </section>

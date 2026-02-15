@@ -1,76 +1,87 @@
-import { Hammer, Gem, Shield, Zap } from "lucide-react";
+import Image from "next/image";
+import { Check } from "lucide-react";
+import { FadeUp } from "@/components/animations/FadeUp";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
-const values = [
+const reasons = [
   {
-    number: "01",
-    icon: Hammer,
-    title: "Artisanat Authentique",
-    description:
-      "Un savoir-faire transmis de maître à compagnon depuis 1987. Chaque geste est le fruit d'une maîtrise technique et d'un amour du métier rare.",
+    title: "Matériaux de premier choix",
+    description: "Ardoise d'Angers, zinc VM Zinc, tuiles Koramic — nous ne travaillons qu'avec les meilleurs fournisseurs.",
   },
   {
-    number: "02",
-    icon: Gem,
-    title: "Matériaux d'Exception",
-    description:
-      "Ardoise naturelle d'Angers, zinc naturel, tuiles terre cuite grand feu. Nous sélectionnons les meilleurs matériaux pour assurer la pérennité de votre toiture.",
+    title: "Artisans formés au Compagnonnage",
+    description: "Notre équipe est issue du Tour de France des Compagnons. Un savoir-faire ancestral au service de votre toiture.",
   },
   {
-    number: "03",
-    icon: Shield,
-    title: "Expertise Certifiée",
-    description:
-      "Qualibat RGE, garantie décennale, assurance Pro BTP. Nos certifications sont le gage de notre sérieux et de la qualité de nos interventions.",
+    title: "Aucun sous-traitant",
+    description: "Toujours nos propres équipes sur vos chantiers, pour une qualité maîtrisée de A à Z.",
   },
   {
-    number: "04",
-    icon: Zap,
-    title: "Réactivité Totale",
-    description:
-      "Dépannage sous 24h, devis sous 48h. Nous savons qu'une toiture endommagée ne peut pas attendre — notre équipe est mobilisée pour vous.",
+    title: "Qualibat RGE certifié",
+    description: "Certification qui garantit la qualité de nos travaux et votre accès aux aides MaPrimeRénov'.",
+  },
+  {
+    title: "Garantie décennale sur tout",
+    description: "Chaque intervention est couverte 10 ans. Votre toiture est protégée, vous l'êtes aussi.",
   },
 ];
 
 export function CertificationsSection() {
   return (
-    <section className="py-20 lg:py-28 bg-[#F0ECE4]">
+    <section className="py-20 lg:py-28 bg-primary-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <p className="text-[#B8860B] text-xs tracking-[0.25em] uppercase font-medium mb-3">
-            Nos engagements
-          </p>
-          <h2 className="font-serif text-4xl lg:text-5xl font-bold text-[#2C3E50] leading-tight">
-            Pourquoi nous choisir
-          </h2>
-        </div>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-        {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {values.map((v) => {
-            const Icon = v.icon;
-            return (
-              <div
-                key={v.number}
-                className="group bg-[#FAFAF5] border border-[#E0D9CE] p-8 hover:border-[#B8860B] transition-colors duration-300"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-12 h-12 bg-[#F0ECE4] flex items-center justify-center group-hover:bg-[#B8860B]/10 transition-colors">
-                    <Icon className="w-5 h-5 text-[#B8860B]" />
-                  </div>
-                  <span className="text-5xl font-serif font-bold text-[#E0D9CE] leading-none group-hover:text-[#B8860B]/20 transition-colors">
-                    {v.number}
-                  </span>
+          {/* Image */}
+          <FadeUp>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+              <Image
+                src="/images/projects/equipe-chantier.png"
+                alt="L'équipe Toits d'Excellence en action"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              {/* Certification badge overlay */}
+              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-3 shadow-lg">
+                <p className="text-xs font-medium text-primary-900">Certifications</p>
+                <div className="flex gap-3 mt-1.5">
+                  {["Qualibat RGE", "Décennale", "Maître Artisan"].map((c) => (
+                    <span key={c} className="text-[10px] font-bold text-accent-500 uppercase tracking-wide">
+                      {c}
+                    </span>
+                  ))}
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#2C3E50] mb-3">
-                  {v.title}
-                </h3>
-                <p className="text-sm text-[#6B7A82] leading-relaxed">
-                  {v.description}
-                </p>
               </div>
-            );
-          })}
+            </div>
+          </FadeUp>
+
+          {/* Reasons */}
+          <div>
+            <FadeUp>
+              <SectionHeading
+                eyebrow="Pourquoi nous choisir"
+                title="L'excellence comme seule exigence"
+                subtitle="Depuis 1987, nous bâtissons notre réputation chantier après chantier, avec la rigueur du compagnonnage."
+              />
+            </FadeUp>
+
+            <ul className="mt-8 space-y-5">
+              {reasons.map((reason, i) => (
+                <FadeUp key={reason.title} delay={i * 0.08}>
+                  <li className="flex gap-4">
+                    <div className="w-7 h-7 rounded-full bg-accent-500 flex items-center justify-center shrink-0 mt-0.5">
+                      <Check className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-primary-900 text-sm mb-1">{reason.title}</p>
+                      <p className="text-sm text-neutral-600 leading-relaxed">{reason.description}</p>
+                    </div>
+                  </li>
+                </FadeUp>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

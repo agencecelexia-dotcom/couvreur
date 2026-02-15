@@ -1,97 +1,102 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { FadeUp } from "@/components/animations/FadeUp";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const services = [
   {
+    icon: "🏠",
     title: "Couverture Neuve",
-    description:
-      "Pose complète de toitures en ardoise naturelle, tuiles ou zinc. Du neuf haut de gamme avec garantie décennale.",
-    image:
-      "/images/projects/grid-couverture.png",
+    description: "Pose complète en ardoise naturelle, tuiles ou zinc. Garantie décennale, matériaux nobles.",
     href: "/services#couverture-neuve",
   },
   {
+    icon: "🔧",
     title: "Rénovation Toiture",
-    description:
-      "Réfection partielle ou totale. Remplacement des éléments défectueux, reprise d'étanchéité, respect de l'architecture.",
-    image:
-      "/images/projects/grid-renovation.png",
+    description: "Réfection partielle ou totale, diagnostic charpente, respect de l'architecture.",
     href: "/services#renovation",
   },
   {
+    icon: "💧",
+    title: "Démoussage",
+    description: "Nettoyage, traitement hydrofuge 10 ans, inspection complète lors de l'intervention.",
+    href: "/services#demoussage",
+  },
+  {
+    icon: "⚡",
     title: "Zinguerie Fine",
-    description:
-      "Gouttières, chéneaux, faîtages, noues et lucarnes. La zinguerie artisanale qui protège et embellit votre maison.",
-    image:
-      "/images/projects/grid-zinguerie.png",
+    description: "Gouttières, chéneaux, faîtages, solins et lucarnes. Zinc naturel, plomb ou inox.",
     href: "/services#zinguerie",
+  },
+  {
+    icon: "🌡️",
+    title: "Isolation Combles",
+    description: "Certifiés RGE. Aides MaPrimeRénov' et CEE prises en charge de A à Z.",
+    href: "/services#isolation",
+  },
+  {
+    icon: "🚨",
+    title: "Dépannage Urgent",
+    description: "Intervention sous 24h en Île-de-France. 7j/7, rapport d'expertise assurance inclus.",
+    href: "/services#depannage",
   },
 ];
 
 export function ServicesGrid() {
   return (
-    <section className="py-20 lg:py-28 bg-[#FAFAF5]">
+    <section className="py-20 lg:py-28 bg-neutral-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-2xl mb-14">
-          <p className="text-[#B8860B] text-xs tracking-[0.25em] uppercase font-medium mb-3">
-            Notre savoir-faire
-          </p>
-          <h2 className="font-serif text-4xl lg:text-5xl font-bold text-[#2C3E50] leading-tight mb-4">
-            Des prestations d&apos;exception
-          </h2>
-          <p className="text-[#6B7A82] leading-relaxed">
-            De la rénovation à la construction neuve, notre équipe d&apos;artisans
-            couvreurs certifiés intervient sur tous types de toitures en Île-de-France.
-          </p>
-        </div>
+        <FadeUp className="max-w-2xl mb-14">
+          <SectionHeading
+            eyebrow="Notre savoir-faire"
+            title="Des prestations d'exception"
+            subtitle="Six métiers maîtrisés par nos artisans certifiés, pour protéger et sublimer votre toiture en Île-de-France."
+          />
+        </FadeUp>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((service) => (
-            <Link
-              key={service.title}
-              href={service.href}
-              className="group relative overflow-hidden aspect-[4/5] block"
-            >
-              <Image
-                src={service.image}
-                alt={service.title}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        {/* Grid 6 cards */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((service, i) => (
+            <FadeUp key={service.title} delay={i * 0.07}>
+              <Link
+                href={service.href}
+                className="group flex flex-col p-6 sm:p-8 bg-white border border-neutral-200 hover:border-primary-300 transition-all duration-300 hover:-translate-y-1"
+                style={{ boxShadow: "var(--shadow-card)" }}
+              >
+                {/* Icon */}
+                <div className="w-12 h-12 flex items-center justify-center bg-primary-50 text-2xl mb-5">
+                  {service.icon}
+                </div>
 
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="font-serif text-xl font-bold text-white mb-2 leading-tight">
+                {/* Content */}
+                <h3 className="font-serif text-lg font-bold text-primary-900 mb-2 leading-tight">
                   {service.title}
                 </h3>
-                <p className="text-white/70 text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 max-h-0 group-hover:max-h-20 overflow-hidden">
+                <p className="text-sm text-neutral-600 leading-relaxed flex-1">
                   {service.description}
                 </p>
-                <div className="flex items-center gap-2 text-[#B8860B] text-sm font-medium">
+
+                {/* CTA */}
+                <div className="flex items-center gap-2 text-accent-500 text-sm font-medium mt-5 group-hover:gap-3 transition-all">
                   <span>Découvrir</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4" />
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </FadeUp>
           ))}
         </div>
 
         {/* All services link */}
-        <div className="mt-10 text-center">
+        <FadeUp className="mt-10 text-center">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#2C3E50] hover:text-[#B8860B] transition-colors border-b border-[#E0D9CE] hover:border-[#B8860B] pb-0.5"
+            className="inline-flex items-center gap-2 text-sm font-medium text-primary-900 hover:text-accent-500 transition-colors border-b border-neutral-300 hover:border-accent-500 pb-0.5"
           >
             Voir tous nos services
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </FadeUp>
       </div>
     </section>
   );
