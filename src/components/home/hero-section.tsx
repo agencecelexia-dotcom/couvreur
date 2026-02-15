@@ -1,138 +1,98 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Link from "next/link"
-import { Phone, ChevronRight, Shield, Award, Clock } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { COMPANY } from "@/lib/data/company"
-
-const TRUST_BADGES = [
-  { icon: Shield, label: "Garantie décennale" },
-  { icon: Award, label: "Certifié RGE" },
-  { icon: Clock, label: "Devis sous 24h" },
-]
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 export function HeroSection() {
-  return (
-    <section
-      className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-[#0f2558] via-[#1E3A8A] to-[#1d4ed8]"
-      aria-label="Section principale"
-    >
-      {/* Background pattern */}
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
-      {/* Background image overlay */}
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-25"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&auto=format&fit=crop&q=80')",
+            "url('/images/hero-toiture.png')",
         }}
       />
 
-      <div className="relative container-wide py-24 lg:py-32">
-        <div className="max-w-3xl">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Badge className="mb-6 bg-[#F97316]/20 text-orange-200 border-[#F97316]/30 text-xs font-medium px-3 py-1.5">
-              <Award className="w-3.5 h-3.5 mr-1.5" />
-              Couvreur certifié RGE — Île-de-France
-            </Badge>
-          </motion.div>
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
 
-          {/* Title */}
-          <motion.h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 text-balance"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            Votre Expert Toiture en{" "}
-            <span className="text-[#F97316]">Île-de-France</span>
-          </motion.h1>
+      {/* Grain texture */}
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
 
-          {/* Subtitle */}
-          <motion.p
-            className="text-lg sm:text-xl text-blue-100 leading-relaxed mb-8 max-w-2xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Rénovation, couverture neuve, zinguerie, isolation toiture.{" "}
-            <strong className="text-white">Devis gratuit sous 24h</strong>, équipe professionnelle,
-            garantie décennale sur tous les travaux.
-          </motion.p>
+      {/* Content */}
+      <div
+        className={`relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center transition-all duration-700 ${
+          mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        }`}
+      >
+        {/* Eyebrow */}
+        <p className="text-[#B8860B] text-xs tracking-[0.3em] uppercase font-medium mb-6">
+          Maître Artisan · Île-de-France · depuis 1987
+        </p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <Button
-              asChild
-              size="lg"
-              className="bg-[#F97316] hover:bg-[#EA6B0A] text-white font-bold text-base px-8 py-6 shadow-lg shadow-orange-900/30 hover:shadow-xl transition-all"
-            >
-              <Link href="/contact">
-                Devis Gratuit
-                <ChevronRight className="ml-2 w-4 h-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/40 text-white bg-white/10 hover:bg-white/20 font-semibold text-base px-6 py-6 backdrop-blur-sm"
-            >
-              <a href={`tel:${COMPANY.phoneMobile.replace(/\s/g, "")}`} aria-label="Appeler maintenant">
-                <Phone className="mr-2 w-4 h-4" />
-                {COMPANY.phoneMobile}
-              </a>
-            </Button>
-          </motion.div>
+        {/* H1 */}
+        <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-[1.05] mb-6">
+          L&apos;Excellence
+          <br />
+          <em className="not-italic text-[#B8860B]">de la Toiture</em>
+        </h1>
 
-          {/* Trust badges */}
-          <motion.div
-            className="flex flex-wrap gap-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+        {/* Subtitle */}
+        <p className="max-w-2xl mx-auto text-lg sm:text-xl text-white/75 leading-relaxed mb-10">
+          Couvreurs artisans certifiés Qualibat RGE. Ardoise, zinc, tuiles,
+          isolation et zinguerie — chaque toit traité avec l&apos;exigence
+          d&apos;un chef-d&apos;œuvre.
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <Link
+            href="/contact"
+            className="inline-flex items-center h-13 px-8 text-base font-medium bg-[#B8860B] text-white hover:bg-[#9a700a] transition-colors"
           >
-            {TRUST_BADGES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2"
-              >
-                <Icon className="w-4 h-4 text-[#F97316]" />
-                <span className="text-white text-sm font-medium">{label}</span>
-              </div>
-            ))}
-          </motion.div>
+            Obtenir un devis gratuit
+          </Link>
+          <Link
+            href="/realisations"
+            className="inline-flex items-center h-13 px-8 text-base font-medium border border-white/60 text-white hover:bg-white hover:text-[#2C3E50] transition-colors"
+          >
+            Voir nos réalisations
+          </Link>
+        </div>
+
+        {/* Stats */}
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+          {[
+            { value: "35+", label: "ans d'expertise" },
+            { value: "1 200+", label: "toitures réalisées" },
+            { value: "100%", label: "satisfaction garantie" },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <p className="font-serif text-3xl sm:text-4xl font-bold text-[#B8860B]">
+                {stat.value}
+              </p>
+              <p className="text-sm text-white/60 mt-1">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-          <div className="w-1 h-3 bg-white/50 rounded-full" />
-        </div>
-      </motion.div>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 animate-bounce">
+        <ChevronDown className="w-5 h-5" />
+      </div>
     </section>
-  )
+  );
 }

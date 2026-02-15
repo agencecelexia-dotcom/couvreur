@@ -1,105 +1,78 @@
-"use client"
+import { Hammer, Gem, Shield, Zap } from "lucide-react";
 
-import { motion } from "framer-motion"
-import { Shield, Award, CheckCircle, Users } from "lucide-react"
-import { CERTIFICATIONS } from "@/lib/data/company"
-
-const CERT_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  rge: Award,
-  qualibat: CheckCircle,
-  "garantie-decennale": Shield,
-  "pro-btp": Users,
-}
+const values = [
+  {
+    number: "01",
+    icon: Hammer,
+    title: "Artisanat Authentique",
+    description:
+      "Un savoir-faire transmis de maître à compagnon depuis 1987. Chaque geste est le fruit d'une maîtrise technique et d'un amour du métier rare.",
+  },
+  {
+    number: "02",
+    icon: Gem,
+    title: "Matériaux d'Exception",
+    description:
+      "Ardoise naturelle d'Angers, zinc naturel, tuiles terre cuite grand feu. Nous sélectionnons les meilleurs matériaux pour assurer la pérennité de votre toiture.",
+  },
+  {
+    number: "03",
+    icon: Shield,
+    title: "Expertise Certifiée",
+    description:
+      "Qualibat RGE, garantie décennale, assurance Pro BTP. Nos certifications sont le gage de notre sérieux et de la qualité de nos interventions.",
+  },
+  {
+    number: "04",
+    icon: Zap,
+    title: "Réactivité Totale",
+    description:
+      "Dépannage sous 24h, devis sous 48h. Nous savons qu'une toiture endommagée ne peut pas attendre — notre équipe est mobilisée pour vous.",
+  },
+];
 
 export function CertificationsSection() {
   return (
-    <section
-      className="section-padding bg-slate-50"
-      aria-labelledby="certifications-title"
-    >
-      <div className="container-wide">
-        <div className="text-center mb-12">
-          <span className="text-[#F97316] font-semibold text-sm uppercase tracking-wider">
-            Garanties & Certifications
-          </span>
-          <h2
-            id="certifications-title"
-            className="text-3xl sm:text-4xl font-bold text-[#1E3A8A] mt-2 mb-4"
-          >
-            Travaillez en toute confiance
-          </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-            Nos certifications et labels attestent de notre expertise technique, de notre
-            sérieux et de notre engagement qualité.
+    <section className="py-20 lg:py-28 bg-[#F0ECE4]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="text-[#B8860B] text-xs tracking-[0.25em] uppercase font-medium mb-3">
+            Nos engagements
           </p>
+          <h2 className="font-serif text-4xl lg:text-5xl font-bold text-[#2C3E50] leading-tight">
+            Pourquoi nous choisir
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {CERTIFICATIONS.map((cert, index) => {
-            const Icon = CERT_ICONS[cert.id] || Shield
+        {/* Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {values.map((v) => {
+            const Icon = v.icon;
             return (
-              <motion.div
-                key={cert.id}
-                className="bg-white rounded-2xl p-6 border border-slate-200 hover:border-[#1E3A8A]/30 hover:shadow-lg transition-all group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+              <div
+                key={v.number}
+                className="group bg-[#FAFAF5] border border-[#E0D9CE] p-8 hover:border-[#B8860B] transition-colors duration-300"
               >
-                <div className="w-14 h-14 bg-blue-50 group-hover:bg-[#1E3A8A] rounded-2xl flex items-center justify-center mb-4 transition-colors">
-                  <Icon className="w-7 h-7 text-[#1E3A8A] group-hover:text-white transition-colors" />
+                <div className="flex items-start justify-between mb-6">
+                  <div className="w-12 h-12 bg-[#F0ECE4] flex items-center justify-center group-hover:bg-[#B8860B]/10 transition-colors">
+                    <Icon className="w-5 h-5 text-[#B8860B]" />
+                  </div>
+                  <span className="text-5xl font-serif font-bold text-[#E0D9CE] leading-none group-hover:text-[#B8860B]/20 transition-colors">
+                    {v.number}
+                  </span>
                 </div>
-                <h3 className="font-bold text-slate-800 mb-2">{cert.name}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{cert.description}</p>
-                {cert.url && (
-                  <a
-                    href={cert.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-3 text-xs text-[#1E3A8A] font-medium hover:text-[#F97316] transition-colors"
-                    aria-label={`Vérifier la certification ${cert.name}`}
-                  >
-                    Vérifier →
-                  </a>
-                )}
-              </motion.div>
-            )
+                <h3 className="font-serif text-lg font-bold text-[#2C3E50] mb-3">
+                  {v.title}
+                </h3>
+                <p className="text-sm text-[#6B7A82] leading-relaxed">
+                  {v.description}
+                </p>
+              </div>
+            );
           })}
-        </div>
-
-        {/* Guarantees bar */}
-        <div className="mt-12 bg-[#1E3A8A] rounded-2xl p-6 md:p-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
-            <div className="flex flex-col md:flex-row items-center gap-3">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Shield className="w-6 h-6 text-[#F97316]" />
-              </div>
-              <div>
-                <p className="font-bold text-white">Garantie Décennale</p>
-                <p className="text-blue-200 text-sm">10 ans de protection sur tous nos travaux</p>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center gap-3">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Award className="w-6 h-6 text-[#F97316]" />
-              </div>
-              <div>
-                <p className="font-bold text-white">Certification RGE</p>
-                <p className="text-blue-200 text-sm">Éligible MaPrimeRénov et aides CEE</p>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center gap-3">
-              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="w-6 h-6 text-[#F97316]" />
-              </div>
-              <div>
-                <p className="font-bold text-white">Satisfaction Garantie</p>
-                <p className="text-blue-200 text-sm">4.9/5 sur 143 avis vérifiés Google</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,158 +1,100 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { TESTIMONIALS } from "@/lib/data/testimonials"
-
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-0.5" aria-label={`Note : ${rating}/5`}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-slate-300"}`}
-        />
-      ))}
-    </div>
-  )
-}
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
+import { testimonials } from "@/data/testimonials";
 
 export function TestimonialsCarousel() {
-  const [current, setCurrent] = useState(0)
-  const [direction, setDirection] = useState(1)
+  const [current, setCurrent] = useState(0);
 
-  const next = useCallback(() => {
-    setDirection(1)
-    setCurrent((c) => (c + 1) % TESTIMONIALS.length)
-  }, [])
-
-  const prev = useCallback(() => {
-    setDirection(-1)
-    setCurrent((c) => (c - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)
-  }, [])
-
-  // Auto-scroll every 5s
   useEffect(() => {
-    const timer = setInterval(next, 5000)
-    return () => clearInterval(timer)
-  }, [next])
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const variants = {
-    enter: (d: number) => ({ x: d * 60, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: (d: number) => ({ x: d * -60, opacity: 0 }),
-  }
+  const prev = () =>
+    setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
+  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
+
+  const t = testimonials[current];
 
   return (
-    <section
-      className="section-padding bg-white"
-      aria-labelledby="testimonials-title"
-    >
-      <div className="container-wide">
-        <div className="text-center mb-12">
-          <span className="text-[#F97316] font-semibold text-sm uppercase tracking-wider">
-            Témoignages
-          </span>
-          <h2
-            id="testimonials-title"
-            className="text-3xl sm:text-4xl font-bold text-[#1E3A8A] mt-2 mb-4"
-          >
-            Ce que disent nos clients
-          </h2>
-          <p className="text-slate-600 max-w-xl mx-auto">
-            Plus de {TESTIMONIALS.length * 18} avis vérifiés. Note moyenne :{" "}
-            <strong>4.9/5</strong> sur Google
+    <section className="py-20 lg:py-28 bg-[#2C3E50]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-14">
+          <p className="text-[#B8860B] text-xs tracking-[0.25em] uppercase font-medium mb-3">
+            Témoignages clients
           </p>
+          <h2 className="font-serif text-4xl lg:text-5xl font-bold text-white leading-tight">
+            Ils nous font confiance
+          </h2>
         </div>
 
-        {/* Carousel */}
-        <div className="max-w-3xl mx-auto">
-          <div className="relative bg-slate-50 rounded-3xl p-8 md:p-12 min-h-[280px]">
-            <Quote className="absolute top-6 right-8 w-16 h-16 text-slate-100" />
+        {/* Testimonial */}
+        <div
+          key={current}
+          className="text-center"
+          aria-live="polite"
+        >
+          <Quote className="w-10 h-10 text-[#B8860B] mx-auto mb-8 opacity-60" />
 
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={current}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.35, ease: "easeOut" }}
-              >
-                <div className="mb-4">
-                  <StarRating rating={TESTIMONIALS[current].rating} />
-                </div>
-                <blockquote>
-                  <p className="text-slate-700 text-lg leading-relaxed mb-6 italic">
-                    &quot;{TESTIMONIALS[current].text}&quot;
-                  </p>
-                </blockquote>
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-[#1E3A8A] flex items-center justify-center text-white font-bold text-sm">
-                    {TESTIMONIALS[current].name.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-slate-800">{TESTIMONIALS[current].name}</p>
-                    <p className="text-sm text-slate-500">
-                      {TESTIMONIALS[current].location} — {TESTIMONIALS[current].date}
-                    </p>
-                    {TESTIMONIALS[current].service && (
-                      <p className="text-xs text-[#F97316] font-medium mt-0.5">
-                        {TESTIMONIALS[current].service}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+          {/* Stars */}
+          <div className="flex justify-center gap-1 mb-6">
+            {Array.from({ length: t.rating }).map((_, i) => (
+              <Star key={i} className="w-5 h-5 fill-[#B8860B] text-[#B8860B]" />
+            ))}
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={prev}
-              aria-label="Témoignage précédent"
-              className="rounded-full border-slate-200 hover:border-[#1E3A8A] hover:text-[#1E3A8A]"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
+          {/* Text */}
+          <blockquote className="font-serif text-xl lg:text-2xl text-white/90 leading-relaxed italic mb-10 max-w-3xl mx-auto">
+            &ldquo;{t.text}&rdquo;
+          </blockquote>
 
-            {/* Dots */}
-            <div className="flex gap-2">
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setDirection(i > current ? 1 : -1)
-                    setCurrent(i)
-                  }}
-                  className={`rounded-full transition-all ${
-                    i === current
-                      ? "w-6 h-2.5 bg-[#1E3A8A]"
-                      : "w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400"
-                  }`}
-                  aria-label={`Voir témoignage ${i + 1}`}
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={next}
-              aria-label="Témoignage suivant"
-              className="rounded-full border-slate-200 hover:border-[#1E3A8A] hover:text-[#1E3A8A]"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
+          {/* Author */}
+          <div>
+            <p className="font-semibold text-white">{t.author}</p>
+            <p className="text-sm text-white/50 mt-1">
+              {t.role} — {t.location}
+            </p>
           </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-6 mt-12">
+          <button
+            onClick={prev}
+            className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:border-[#B8860B] hover:text-[#B8860B] transition-colors"
+            aria-label="Témoignage précédent"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          {/* Dots */}
+          <div className="flex gap-2">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                aria-label={`Témoignage ${i + 1}`}
+                className={`h-1.5 transition-all duration-300 ${
+                  i === current ? "w-8 bg-[#B8860B]" : "w-1.5 bg-white/30"
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={next}
+            className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:border-[#B8860B] hover:text-[#B8860B] transition-colors"
+            aria-label="Témoignage suivant"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </section>
-  )
+  );
 }

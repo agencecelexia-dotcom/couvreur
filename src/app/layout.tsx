@@ -1,154 +1,70 @@
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import "./globals.css"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
-import { COMPANY } from "@/lib/data/company"
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-})
+import type { Metadata } from "next";
+import "./globals.css";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/footer";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://toitsexcellence.fr"),
   title: {
-    default: `${COMPANY.name} | Couvreur Professionnel Île-de-France`,
-    template: `%s | ${COMPANY.name}`,
+    default: "Toits d'Excellence — Couvreur Île-de-France",
+    template: "%s | Toits d'Excellence",
   },
   description:
-    "Couvreur professionnel certifié RGE en Île-de-France. Rénovation et réfection de toiture, couverture neuve, zinguerie, isolation, démoussage. Devis gratuit, garantie décennale. ☎️ " +
-    COMPANY.phone,
+    "Maître couvreur en Île-de-France depuis 1987. Ardoise naturelle, zinc, tuiles, isolation et zinguerie. Qualibat RGE. Devis gratuit sous 48h.",
   keywords: [
-    "couvreur île-de-france",
+    "couvreur Île-de-France",
+    "couvreur Paris",
     "rénovation toiture",
-    "couverture neuve",
-    "zinguerie paris",
-    "isolation toiture",
-    "démoussage toiture",
-    "couvreur certifié RGE",
-    "devis toiture gratuit",
-    "réparation toiture urgence",
-    "garantie décennale couverture",
+    "ardoise naturelle",
+    "zinguerie",
+    "isolation combles",
+    "Qualibat RGE",
+    "toiture zinc",
   ],
-  authors: [{ name: COMPANY.name }],
-  creator: COMPANY.name,
+  authors: [{ name: "Toits d'Excellence" }],
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    siteName: COMPANY.name,
-    title: `${COMPANY.name} | Couvreur Professionnel Île-de-France`,
-    description: "Couvreur professionnel certifié RGE en Île-de-France. Devis gratuit, garantie décennale.",
+    url: "https://toitsexcellence.fr",
+    siteName: "Toits d'Excellence",
+    title: "Toits d'Excellence — Couvreur Île-de-France depuis 1987",
+    description:
+      "Artisans couvreurs certifiés Qualibat RGE. Ardoise, zinc, tuiles, isolation. Devis gratuit sous 48h.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/images/projects/og-default.png",
         width: 1200,
         height: 630,
-        alt: `${COMPANY.name} - Couvreur professionnel`,
+        alt: "Toits d'Excellence — Couvreur Île-de-France",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${COMPANY.name} | Couvreur Île-de-France`,
-    description: "Couvreur professionnel certifié RGE. Devis gratuit.",
+    title: "Toits d'Excellence — Couvreur Île-de-France",
+    description: "Artisans couvreurs certifiés. Ardoise, zinc, tuiles. Devis gratuit.",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    googleBot: { index: true, follow: true },
   },
-  alternates: {
-    canonical: COMPANY.website,
-  },
-}
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "RoofingContractor",
-    name: COMPANY.name,
-    legalName: COMPANY.legalName,
-    url: COMPANY.website,
-    telephone: COMPANY.phone,
-    email: COMPANY.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: COMPANY.address.street,
-      addressLocality: COMPANY.address.city,
-      postalCode: COMPANY.address.postalCode,
-      addressRegion: COMPANY.address.region,
-      addressCountry: COMPANY.address.country,
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: COMPANY.address.lat,
-      longitude: COMPANY.address.lng,
-    },
-    priceRange: COMPANY.priceRange,
-    areaServed: [
-      "Paris",
-      "Hauts-de-Seine",
-      "Val-de-Marne",
-      "Essonne",
-      "Yvelines",
-      "Seine-et-Marne",
-      "Val-d'Oise",
-      "Seine-Saint-Denis",
-    ],
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "07:30",
-        closes: "18:00",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Saturday",
-        opens: "08:00",
-        closes: "13:00",
-      },
-    ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: COMPANY.aggregateRating.ratingValue,
-      reviewCount: COMPANY.aggregateRating.reviewCount,
-      bestRating: "5",
-      worstRating: "1",
-    },
-    hasCredential: ["RGE", "Qualibat"],
-  }
-
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="fr" className="scroll-smooth">
-      <head>
-        {/* Puter.js — Nano Banana (Gemini image generation, no API key required) */}
-        <script src="https://js.puter.com/v2/" async></script>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
-        <Header />
+    <html lang="fr">
+      <body>
+        <JsonLd />
+        <Navbar />
         <main>{children}</main>
         <Footer />
       </body>
     </html>
-  )
+  );
 }

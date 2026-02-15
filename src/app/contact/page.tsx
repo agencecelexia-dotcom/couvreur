@@ -1,113 +1,136 @@
-import type { Metadata } from "next"
-import { Phone, Mail, MapPin, Clock } from "lucide-react"
-import { COMPANY } from "@/lib/data/company"
-import { QuoteForm } from "@/components/forms/quote-form"
+import type { Metadata } from "next";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
-  title: "Devis Gratuit Toiture | Contact — Couvreur Île-de-France",
+  title: "Contact & Devis Gratuit",
   description:
-    "Demandez votre devis gratuit pour tous travaux de toiture en Île-de-France. Réponse sous 24h. Couvreur certifié RGE, garantie décennale. ☎️ " + COMPANY.phone,
-}
+    "Demandez votre devis couverture gratuit sous 48h. Couvreur Île-de-France — ardoise, zinc, tuiles, isolation. Urgences 7j/7. 01 45 78 92 31.",
+  alternates: { canonical: "https://toitsexcellence.fr/contact" },
+};
+
+const contactInfo = [
+  {
+    icon: Phone,
+    label: "Téléphone",
+    primary: "01 45 78 92 31",
+    secondary: "Urgences disponibles 7j/7",
+    href: "tel:+33145789231",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    primary: "contact@toitsexcellence.fr",
+    secondary: "Réponse sous 24h",
+    href: "mailto:contact@toitsexcellence.fr",
+  },
+  {
+    icon: MapPin,
+    label: "Adresse",
+    primary: "15 Rue de la Tuile",
+    secondary: "94200 Ivry-sur-Seine",
+    href: "https://maps.google.com/?q=Ivry-sur-Seine+94200",
+  },
+  {
+    icon: Clock,
+    label: "Horaires",
+    primary: "Lun–Ven : 8h–18h",
+    secondary: "Sam : 8h–12h",
+  },
+];
 
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-gradient-to-br from-[#0f2558] to-[#1E3A8A] py-20 pt-32">
-        <div className="container-wide text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-            Devis Gratuit & Contact
-          </h1>
-          <p className="text-blue-100 text-xl max-w-2xl mx-auto">
-            Décrivez votre projet et recevez votre devis détaillé sous 24h. Déplacement
-            gratuit sur toute l&apos;Île-de-France.
-          </p>
-        </div>
-      </section>
+      {/* Page header */}
+      <div className="pt-32 pb-16 bg-[#2C3E50] text-center">
+        <p className="text-[#B8860B] text-xs tracking-[0.25em] uppercase font-medium mb-4">
+          Demande de devis
+        </p>
+        <h1 className="font-serif text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
+          Contactez-nous
+        </h1>
+        <p className="text-white/60 text-lg max-w-xl mx-auto">
+          Devis gratuit et sans engagement. Réponse sous 48h, souvent bien moins.
+        </p>
+      </div>
 
-      <section className="section-padding bg-slate-50">
-        <div className="container-wide">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Form */}
+      {/* Content */}
+      <section className="py-16 lg:py-24 bg-[#FAFAF5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
+            {/* Sidebar info */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
-                <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">Votre demande de devis</h2>
-                <p className="text-slate-500 text-sm mb-6">
-                  Tous les champs marqués * sont obligatoires.
-                </p>
-                <QuoteForm />
+              <h2 className="font-serif text-2xl font-bold text-[#2C3E50] mb-8">
+                Nos coordonnées
+              </h2>
+
+              <ul className="space-y-6 mb-10">
+                {contactInfo.map((item) => {
+                  const Icon = item.icon;
+                  const content = (
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 bg-[#B8860B]/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Icon className="w-4 h-4 text-[#B8860B]" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-[#6B7A82] uppercase tracking-wider font-medium mb-0.5">
+                          {item.label}
+                        </p>
+                        <p className="text-sm font-semibold text-[#2C3E50]">{item.primary}</p>
+                        <p className="text-xs text-[#6B7A82] mt-0.5">{item.secondary}</p>
+                      </div>
+                    </div>
+                  );
+                  return (
+                    <li key={item.label}>
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          target={item.href.startsWith("http") ? "_blank" : undefined}
+                          rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="hover:opacity-80 transition-opacity block"
+                        >
+                          {content}
+                        </a>
+                      ) : (
+                        content
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+
+              {/* Map placeholder */}
+              <div className="aspect-[4/3] bg-[#E0D9CE] flex items-center justify-center">
+                <div className="text-center">
+                  <MapPin className="w-8 h-8 text-[#B8860B] mx-auto mb-2" />
+                  <p className="text-sm text-[#6B7A82]">94200 Ivry-sur-Seine</p>
+                  <a
+                    href="https://maps.google.com/?q=Ivry-sur-Seine+94200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-[#B8860B] underline mt-1 inline-block"
+                  >
+                    Voir sur Google Maps
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              <div className="bg-white rounded-2xl p-6 border border-slate-200">
-                <h3 className="font-bold text-[#1E3A8A] mb-4">Nos coordonnées</h3>
-                <div className="space-y-4">
-                  <a
-                    href={`tel:${COMPANY.phoneMobile.replace(/\s/g, "")}`}
-                    className="flex items-start gap-3 text-slate-700 hover:text-[#1E3A8A] transition-colors"
-                    aria-label="Appeler"
-                  >
-                    <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-4 h-4 text-[#F97316]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">{COMPANY.phoneMobile}</p>
-                      <p className="text-xs text-slate-500">Urgences 6j/7</p>
-                    </div>
-                  </a>
-                  <a
-                    href={`mailto:${COMPANY.email}`}
-                    className="flex items-start gap-3 text-slate-700 hover:text-[#1E3A8A] transition-colors"
-                    aria-label="Email"
-                  >
-                    <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-4 h-4 text-[#F97316]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">{COMPANY.email}</p>
-                      <p className="text-xs text-slate-500">Réponse sous 24h</p>
-                    </div>
-                  </a>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-4 h-4 text-[#F97316]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">{COMPANY.address.street}</p>
-                      <p className="text-sm text-slate-600">
-                        {COMPANY.address.postalCode} {COMPANY.address.city}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-4 h-4 text-[#F97316]" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">Lun-Ven : {COMPANY.hours.weekdays}</p>
-                      <p className="text-sm text-slate-600">Sam : {COMPANY.hours.saturday}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Reassurance */}
-              <div className="bg-[#1E3A8A] rounded-2xl p-6 text-white">
-                <h3 className="font-bold mb-3">Notre engagement</h3>
-                <ul className="space-y-2 text-blue-100 text-sm">
-                  <li>✓ Devis gratuit et sans engagement</li>
-                  <li>✓ Réponse sous 24h en semaine</li>
-                  <li>✓ Déplacement offert en Île-de-France</li>
-                  <li>✓ Devis détaillé avec photos</li>
-                  <li>✓ Aucun frais caché</li>
-                  <li>✓ Garantie décennale incluse</li>
-                </ul>
-              </div>
+            {/* Form */}
+            <div className="lg:col-span-3 bg-white border border-[#E0D9CE] p-8 lg:p-10">
+              <h2 className="font-serif text-2xl font-bold text-[#2C3E50] mb-2">
+                Votre demande de devis
+              </h2>
+              <p className="text-sm text-[#6B7A82] mb-8">
+                Remplissez le formulaire, nous vous rappelons sous 48h avec un devis détaillé.
+              </p>
+              <ContactForm />
             </div>
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }

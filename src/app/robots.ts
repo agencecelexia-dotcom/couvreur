@@ -1,5 +1,4 @@
-import type { MetadataRoute } from "next"
-import { COMPANY } from "@/lib/data/company"
+import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/_next/"],
       },
     ],
-    sitemap: `${COMPANY.website}/sitemap.xml`,
-    host: COMPANY.website,
-  }
+    sitemap: "https://toitsexcellence.fr/sitemap.xml",
+  };
 }

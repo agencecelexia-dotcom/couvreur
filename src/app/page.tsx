@@ -1,30 +1,27 @@
-import type { Metadata } from "next"
-import { HeroSection } from "@/components/home/hero-section"
-import { ServicesGrid } from "@/components/home/services-grid"
-import { StatsSection } from "@/components/home/stats-section"
-import { CertificationsSection } from "@/components/home/certifications"
-import { TestimonialsCarousel } from "@/components/home/testimonials-carousel"
-import { ZonesSection } from "@/components/home/zones-section"
-import { CtaBand } from "@/components/home/cta-band"
-import { COMPANY } from "@/lib/data/company"
+import type { Metadata } from "next";
+import { HeroSection } from "@/components/home/hero-section";
+import { CertificationsSection } from "@/components/home/certifications";
+import { ServicesGrid } from "@/components/home/services-grid";
+import { StatsSection } from "@/components/home/stats-section";
+import { TestimonialsCarousel } from "@/components/home/testimonials-carousel";
+import { CtaBand } from "@/components/home/cta-band";
 
 export const metadata: Metadata = {
-  title: `${COMPANY.name} | Couvreur Professionnel Île-de-France — Devis Gratuit`,
+  title: "Couvreur Île-de-France — Toits d'Excellence depuis 1987",
   description:
-    "Couvreur professionnel certifié RGE en Île-de-France. Rénovation toiture, couverture neuve, zinguerie, isolation, démoussage. Devis gratuit sous 24h. Garantie décennale. ☎️ " +
-    COMPANY.phoneMobile,
-}
+    "Maître couvreur en Île-de-France. Ardoise naturelle, zinc, tuiles, isolation et zinguerie. Qualibat RGE certifié. Devis gratuit et intervention sous 24h.",
+  alternates: { canonical: "https://toitsexcellence.fr" },
+};
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <CertificationsSection />
       <ServicesGrid />
       <StatsSection />
-      <CertificationsSection />
       <TestimonialsCarousel />
-      <ZonesSection />
       <CtaBand />
     </>
-  )
+  );
 }
