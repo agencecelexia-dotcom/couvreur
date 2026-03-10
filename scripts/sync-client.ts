@@ -48,11 +48,9 @@ function extractNumber(value: string, fallback: number): number {
 
 /** Numeric fields with their defaults */
 const NUMERIC_FIELDS: Record<string, number> = {
-  ANNEES_EXPERIENCE: 15,
   NOMBRE_INTERVENTIONS: 500,
   NOTE_GOOGLE: 4.8,
   NOMBRE_AVIS: 45,
-  ANNEE_CREATION: 2010,
 };
 
 /**
@@ -198,11 +196,13 @@ function main() {
         '  HORAIRES_SAMEDI: "9h - 12h",',
         '  HORAIRES_DIMANCHE: "Ferme",',
         '  HORAIRES_URGENCE: "24h/24",',
-        "  ANNEES_EXPERIENCE: 15,",
+        '  ANNEE_CREATION: "2010",',
+        '  ANNEES_EXPERIENCE: "15",',
+        "",
         "  NOMBRE_INTERVENTIONS: 500,",
         "  NOTE_GOOGLE: 4.8,",
         "  NOMBRE_AVIS: 45,",
-        "  ANNEE_CREATION: 2010,",
+        "",
         "  TAUX_SATISFACTION: 98,",
         '  ZONE_INTERVENTION: "Paris et alentours",',
         '  ZONE_KM: "30",',
