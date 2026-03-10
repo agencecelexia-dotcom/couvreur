@@ -83,9 +83,11 @@ function main() {
   console.log("sync-client — Template Couvreur\n");
 
   if (!fs.existsSync(CLIENT_MD)) {
-    console.error("CLIENT.md introuvable a la racine du projet");
-    process.exit(1);
-  }
+    console.warn("CLIENT.md introuvable - generation config par defaut.");
+    fs.writeFileSync(CLIENT_CONFIG_TS, "// Auto-generated default config (CLIENT.md not yet available)\nexport const clientConfig = {\n  NOM_ENTREPRISE: \"Mon Entreprise\",\n  NOM_DIRIGEANT: \"Nom\",\n  PRENOM_DIRIGEANT: \"Prenom\",\n  TELEPHONE: \"00 00 00 00 00\",\n  TELEPHONE_URGENCE: \"00 00 00 00 00\",\n  EMAIL: \"contact@example.com\",\n  ADRESSE: \"1 rue Exemple\",\n  VILLE: \"Paris\",\n  CODE_POSTAL: \"75001\",\n  DEPARTEMENT: \"Paris\",\n  REGION: \"Ile-de-France\",\n  HORAIRES_SEMAINE: \"8h - 18h\",\n  HORAIRES_SAMEDI: \"9h - 12h\",\n  HORAIRES_DIMANCHE: \"Ferme\",\n  HORAIRES_URGENCE: \"24h/24\",\n  ANNEES_EXPERIENCE: \"15\",\n  ZONE_INTERVENTION: \"Paris et alentours\",\n  ZONE_KM: \"30\",\n  SIRET: \"\",\n  RGE: \"\",\n  ASSURANCE_DECENNALE: \"\",\n  SLOGAN: \"Votre artisan de confiance\",\n  DESCRIPTION_ENTREPRISE: \"Entreprise specialisee dans les travaux de couverture.\",\n  DESCRIPTION_FOOTER: \"Votre specialiste en couverture.\",\n  META_TITLE: \"Couvreur - Devis Gratuit\",\n  META_DESCRIPTION: \"Entreprise de couverture. Devis gratuit.\",\n  ACCROCHE_HERO: \"Votre toiture entre de bonnes mains\",\n  COULEUR_PRIMAIRE: \"#1e3a5f\",\n  COULEUR_SECONDAIRE: \"#c8a96e\",\n  POLICE_TITRES: \"Playfair Display\",\n  POLICE_CORPS: \"Inter\",\n  SERVICE_1_TITRE: \"Couverture neuve\",\n  SERVICE_1_DESC: \"Installation complete de toiture.\",\n  SERVICE_2_TITRE: \"Renovation toiture\",\n  SERVICE_2_DESC: \"Renovation et reparation de toiture.\",\n  SERVICE_3_TITRE: \"Etancheite\",\n  SERVICE_3_DESC: \"Traitement etancheite toiture et terrasse.\",\n  SERVICE_4_TITRE: \"Isolation\",\n  SERVICE_4_DESC: \"Isolation thermique de toiture.\",\n  SERVICE_5_TITRE: \"Urgence toiture\",\n  SERVICE_5_DESC: \"Intervention urgente bache et reparation.\",\n  SERVICE_6_TITRE: \"Zinguerie\",\n  SERVICE_6_DESC: \"Travaux de zinguerie et gouttieres.\",\n  FACEBOOK_URL: \"\",\n  INSTAGRAM_URL: \"\",\n  GOOGLE_URL: \"\",\n} as const;\nexport type ClientConfig = typeof clientConfig;", "utf-8");
+    console.log("client.config.ts genere avec valeurs par defaut");
+    process.exit(0);
+}
   const clientMdContent = fs.readFileSync(CLIENT_MD, "utf-8");
   const config = parseClientMd(clientMdContent);
   console.log(`CLIENT.md lu — ${Object.keys(config).length} variables trouvees`);
